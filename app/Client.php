@@ -39,6 +39,12 @@ readonly class Client
         Cache::forget('master');
     }
 
+    public static function sync(): void
+    {
+        Folder::all(reload: true);
+        Password::all(reload: true);
+    }
+
     public function passwords(): Collection
     {
         $response = Http::withBasicAuth($this->env->user, $this->env->password)

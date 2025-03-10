@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\UnauthorizedException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,5 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (UnauthorizedException $e) {
+            App\Client::logout();
+            return response()->view('login', ['message' => $e->getMessage()]);
+        });
     })->create();

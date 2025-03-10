@@ -101,3 +101,9 @@ Artisan::command('pwd:password {index}', function (int $index) {
         $password->details();
     }, $this, [$index]);
 });
+
+Artisan::command('pwd:sync', function () {
+    Runtime::run(function () {
+        Client::sync();
+    }, $this, []);
+});

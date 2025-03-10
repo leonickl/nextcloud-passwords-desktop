@@ -35,7 +35,7 @@ class Crypto
         $keys = Cache::get('keys');
 
         if (!is_object($keys)) {
-            throw new UnauthorizedException("No keys found. Login again.");
+            throw new UnauthorizedException("Keychain not found. Login again.");
         }
 
         return (array)$keys;
@@ -92,7 +92,7 @@ class Crypto
         $decrypted = sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
 
         if ($decrypted === false) {
-            throw new UnauthorizedException("Encryption failed.");
+            throw new UnauthorizedException("Encryption failed. Please enter correct master password.");
         }
 
         return $decrypted;
@@ -120,7 +120,7 @@ class Crypto
         $decrypted = sodium_crypto_secretbox_open($ciphertext, $nonce, $decryptionKey);
 
         if (!$decrypted) {
-            throw new UnauthorizedException("Decryption failed.");
+            throw new UnauthorizedException("Encryption failed. Please enter correct master password.");
         }
 
         return json_decode($decrypted, true);

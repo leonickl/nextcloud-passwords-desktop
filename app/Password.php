@@ -35,7 +35,7 @@ readonly class Password
 
     public static function serialize(array $password, int $index): array
     {
-        return [$index, ...array_map(fn(string $str) => substr(str_replace(["\r\n", "\n"], [" ", " "], $str), 0, 20), $password)];
+        return [$index, ...array_map(fn(?string $str) => substr(str_replace(["\r\n", "\n"], [" ", " "], $str ?? ''), 0, 20), $password)];
     }
 
     public static function filter(array $password, int $index, string $search): bool
@@ -50,7 +50,23 @@ readonly class Password
         $values = Crypto::init()
             ->decrypt($this->data, $fields);
 
-        return ['id' => $this->data['id'], ...$values];
+        $values['customFields'] = key_exists('customFields', $values)
+            ? json_decode($values['customFields'], true) ?? null
+            : null;
+
+        $folder = Folder::find($this->data['folder'])?->decrypt();
+
+        $values['url'] = str_starts_with('http', $values['url'])
+            ? $values['url']
+            : 'https://' . $values['url'];
+
+        return [
+            'id' => $this->data['id'],
+            ...$values,
+            'folder' => $folder ? $folder['label'] : null,
+            'folder_id' => $this->data['folder'],
+            'color' => $folder ? $folder['color'] ?? 'bg-gray-700' : null,
+        ];
     }
 
     public function folder(): string

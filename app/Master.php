@@ -22,7 +22,7 @@ class Master
         }
 
         if (!isset(self::$master)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Enter your master password.");
         }
 
         return self::$master;
@@ -38,5 +38,10 @@ class Master
         self::$master = new SensitiveParameterValue($master);
 
         Cache::put('master', encrypt(self::$master->getValue()), now()->addMinutes(5));
+    }
+
+    public static function saveLife(): void
+    {
+        self::set(self::ask()->getValue());
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Exceptions\DecryptionFailedException;
-use App\Exceptions\MasterNotInitializedException;
 use App\Exceptions\UnauthorizedException;
 use Closure;
 use GuzzleHttp\Exception\ConnectException;
@@ -22,8 +20,6 @@ class Runtime
             try {
                 $closure(...$args);
                 return;
-            } catch (DecryptionFailedException|MasterNotInitializedException) {
-                Master::ask();
             } catch (UnauthorizedException) {
                 Client::login();
             } catch(ConnectException) {
