@@ -1,20 +1,25 @@
 services:
-    app:
-        build: .
-        container_name: laravel_app
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile-php
+        container_name: php_container
         volumes:
-            - .:/var/www
+            - ./:/var/www
         ports:
-            - "8000:8000"  # Laravel backend
-            - "5173:5173"  # Vite frontend
+            - "8000:8000"
         depends_on:
-            - redis
-        environment:
-            - APP_ENV=local
-            - APP_DEBUG=true
-            - REDIS_HOST=redis
-            - DB_CONNECTION=sqlite
-            - DB_DATABASE=/var/www/database/database.sqlite
+            - node
+
+    node:
+        build:
+            context: .
+            dockerfile: Dockerfile-node
+        container_name: node_container
+        volumes:
+            - ./:/var/www
+        ports:
+            - "5173:5173"
 
     redis:
         image: redis:latest
