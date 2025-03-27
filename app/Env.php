@@ -10,7 +10,7 @@ readonly class Env
 
     public function __construct()
     {
-        $this->url = env('NC_URL');
+        $this->url = trim(env('NC_URL'), '/') . '/';
         $this->user = env('NC_USER');
         $this->password = env('NC_PASS');
     }
