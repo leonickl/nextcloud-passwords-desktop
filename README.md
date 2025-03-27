@@ -3,6 +3,11 @@
 An offline-capable, cross-platform, desktop client for the [https://apps.nextcloud.com/apps/passwords](Nextcloud Passwords app).
 Currently, only reading is supported and no passwords can be added or modified. This is, because this client was created as a read-only offline client, since the browser extension works online only.
 
+> [!WARNING]
+> This application has not been independently audited for security vulnerabilities.
+> Your master key will remain encrypted throughout the session and will not be recorded in system logs.
+> For feedback, feel free to contact me at [mailto:leo@gehmasse.de](leo@gehmasse.de).
+
 ## Installation
 
 -   requires php (tested with 8.4) and nodejs
