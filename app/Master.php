@@ -14,7 +14,11 @@ class Master
     public static function ask(): SensitiveParameterValue
     {
         if (Cache::has('master')) {
-            self::$master = new SensitiveParameterValue(decrypt(Cache::get('master')));
+            try {
+                self::$master = new SensitiveParameterValue(decrypt(Cache::get('master')));
+            } catch(\Exception) {
+                
+            }
         }
 
         if (!isset(self::$master) && app()->runningInConsole()) {
