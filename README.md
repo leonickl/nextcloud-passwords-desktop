@@ -23,3 +23,4 @@ Currently, only reading is supported and no passwords can be added or modified. 
 
 -   run `php artisan serve` to start the application
 -   open the shown url (probably [http://localhost:8000](http://localhost:8000)) in your browser
+-   a command line application is available at `php artisan pwd`
